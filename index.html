@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Galaxy Surprise</title>
+<title>Gift Surprise</title>
 
 <style>
 body{
@@ -12,200 +12,152 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family:Arial;
+    font-family: Arial;
+    background: linear-gradient(180deg, #0f1020, #1b1e3a, #0a0b14);
     color:white;
-    background:black;
 }
 
-/* 🌌 مجرة */
-.stars, .stars2, .stars3{
+/* نجوم ناعمة */
+.star{
     position:absolute;
-    width:200%;
-    height:200%;
-    background-repeat:repeat;
-    background-size:contain;
-    animation: moveStars 60s linear infinite;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    opacity:0.6;
+    animation: twinkle 3s infinite;
 }
 
-.stars{
-    background-image: radial-gradient(white 1px, transparent 1px);
-    opacity:0.5;
+@keyframes twinkle{
+    0%,100%{opacity:0.2; transform:scale(1);}
+    50%{opacity:1; transform:scale(1.5);}
 }
 
-.stars2{
-    background-image: radial-gradient(#ff4d6d 1px, transparent 1px);
-    opacity:0.3;
-    animation-duration:100s;
-}
-
-.stars3{
-    background-image: radial-gradient(#6ec1ff 1px, transparent 1px);
-    opacity:0.2;
-    animation-duration:150s;
-}
-
-@keyframes moveStars{
-    from{transform:translate(0,0);}
-    to{transform:translate(-500px,-500px);}
-}
-
-/* اهتزاز */
-.shake{
-    animation: shake 0.5s;
-}
-
-@keyframes shake{
-    0%{transform:translate(0,0);}
-    25%{transform:translate(5px,-5px);}
-    50%{transform:translate(-5px,5px);}
-    75%{transform:translate(5px,5px);}
-    100%{transform:translate(0,0);}
-}
-
-/* 🎁 صندوق 3D */
+/* صندوق جميل */
 .box{
-    width:160px;
-    height:160px;
-    position:relative;
-    transform-style:preserve-3d;
+    width:140px;
+    height:140px;
+    background: linear-gradient(145deg,#ff4d6d,#ff2e5e);
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
     cursor:pointer;
+    box-shadow:0 10px 30px rgba(255,77,109,0.5);
+    transition:0.4s;
+    position:relative;
 }
 
-/* قاعدة الصندوق */
-.base{
-    width:100%;
-    height:100%;
-    background:#ff4d6d;
-    position:absolute;
-    bottom:0;
-    border-radius:15px;
-    box-shadow:0 0 30px #ff4d6d;
-}
-
-/* الغطاء */
-.lid{
-    width:100%;
-    height:100%;
-    background:#ff2e5e;
-    position:absolute;
-    top:0;
-    transform-origin:top;
-    border-radius:15px;
-    transition:1s;
+.box:hover{
+    transform:scale(1.05);
 }
 
 /* فتح */
-.open .lid{
-    transform:rotateX(-120deg);
+.open{
+    animation: pop 0.8s forwards;
 }
 
-/* رسالة */
+@keyframes pop{
+    0%{transform:scale(1);}
+    100%{transform:scale(0) rotate(360deg); opacity:0;}
+}
+
+/* الرسالة */
 #message{
     display:none;
     text-align:center;
     max-width:320px;
     font-size:18px;
-    line-height:1.6;
+    line-height:1.7;
+    animation: fade 1.5s ease;
 }
 
-/* صورة */
+@keyframes fade{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* الصورة */
 #photo{
     display:none;
     width:220px;
     border-radius:20px;
     margin-top:15px;
-    box-shadow:0 0 20px white;
+    box-shadow:0 10px 25px rgba(255,255,255,0.3);
 }
 
-/* حب */
+/* الحب */
 #love{
     display:none;
     font-size:34px;
     color:#ff4d6d;
     margin-top:15px;
-}
-
-/* زرار */
-#replay{
-    display:none;
-    margin-top:20px;
-    padding:10px 20px;
-    background:#fff;
-    color:black;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
+    font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="stars"></div>
-<div class="stars2"></div>
-<div class="stars3"></div>
-
-<audio id="music" src="music.mp3"></audio>
-
-<div class="box" id="box" onclick="openBox()">
-    <div class="lid"></div>
-    <div class="base"></div>
-</div>
+<div class="box" id="box" onclick="openBox()">🎁</div>
 
 <div id="message"></div>
-<img id="photo" src="your-photo.jpg">
-<div id="love">بحبك يا جومانا ❤️</div>
 
-<button id="replay" onclick="location.reload()">Replay 🔁</button>
+<img id="photo" src="your-photo.jpg">
+
+<div id="love">بحبك يا جومانا ❤️</div>
 
 <script>
 
+/* نجوم */
+for(let i=0;i<80;i++){
+    let s=document.createElement("div");
+    s.className="star";
+    s.style.top=Math.random()*100+"vh";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=(Math.random()*3+2)+"s";
+    document.body.appendChild(s);
+}
+
+/* كتابة */
+function typeText(text, el, speed){
+    let i=0;
+    function run(){
+        if(i<text.length){
+            el.innerHTML += text[i];
+            i++;
+            setTimeout(run,speed);
+        }
+    }
+    run();
+}
+
 function openBox(){
-
-    document.getElementById("music").play();
-
-    document.body.classList.add("shake");
-
-    setTimeout(()=>document.body.classList.remove("shake"),500);
 
     document.getElementById("box").classList.add("open");
 
     setTimeout(()=>{
-        document.getElementById("message").style.display="block";
-        typeText(`عندي ليكي حاجة بسيطة... بس من قلبي ❤️
+        let msg=document.getElementById("message");
+        msg.style.display="block";
 
-وجودك في حياتي أحلى صدفة ✨
-كل يوم معاكي أحلى من اللي قبله 💫
-والمفاجأة لسه مكملة...`,
-        document.getElementById("message"),40);
-    },1000);
+        typeText(
+`عندي ليكي حاجة بسيطة... بس من قلبي ❤️
+
+وجودك في حياتي مش صدفة عادية ✨
+ده أحلى حاجة حصلتلي 💫
+وكل لحظة معاكي ليها معنى مختلف ❤️`,
+        msg,40);
+    },800);
 
     setTimeout(()=>{
         document.getElementById("photo").style.display="block";
-    },6000);
+    },5000);
 
     setTimeout(()=>{
         document.getElementById("love").style.display="block";
-    },8000);
-
-    setTimeout(()=>{
-        document.getElementById("replay").style.display="inline-block";
-    },9000);
+    },6500);
 }
-
-/* typing effect */
-function typeText(text, element, speed){
-    let i=0;
-    function typing(){
-        if(i<text.length){
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typing,speed);
-        }
-    }
-    typing();
-}
-
 </script>
 
 </body>
