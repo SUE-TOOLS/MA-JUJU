@@ -2,162 +2,202 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Gift Surprise</title>
+<title>IMAX Surprise</title>
 
 <style>
 body{
     margin:0;
     height:100vh;
     overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-family: Arial;
-    background: linear-gradient(180deg, #0f1020, #1b1e3a, #0a0b14);
+    font-family:Arial;
+    background: radial-gradient(circle at center, #0a0f2a, #05060d, #000);
     color:white;
+    transition:2s;
 }
 
-/* نجوم ناعمة */
-.star{
+/* 🌌 خلفية طبقات (parallax إحساس عمق) */
+.layer{
     position:absolute;
-    width:3px;
-    height:3px;
-    background:white;
+    width:200%;
+    height:200%;
+    background: radial-gradient(white 1px, transparent 1px);
+    background-size:3px 3px;
+    opacity:0.4;
+    animation: move 120s linear infinite;
+}
+
+.layer2{
+    opacity:0.2;
+    animation-duration:200s;
+}
+
+.layer3{
+    opacity:0.1;
+    animation-duration:300s;
+}
+
+@keyframes move{
+    from{transform:translate(0,0);}
+    to{transform:translate(-500px,-500px);}
+}
+
+/* 🌙 قمر */
+.moon{
+    position:absolute;
+    top:60px;
+    right:80px;
+    width:100px;
+    height:100px;
+    background:#f5f3ce;
     border-radius:50%;
-    opacity:0.6;
-    animation: twinkle 3s infinite;
+    box-shadow:0 0 80px rgba(255,255,200,0.7);
 }
 
-@keyframes twinkle{
-    0%,100%{opacity:0.2; transform:scale(1);}
-    50%{opacity:1; transform:scale(1.5);}
-}
-
-/* صندوق جميل */
+/* 🎁 بوكس IMAX */
 .box{
-    width:140px;
-    height:140px;
-    background: linear-gradient(145deg,#ff4d6d,#ff2e5e);
-    border-radius:20px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:40px;
-    cursor:pointer;
-    box-shadow:0 10px 30px rgba(255,77,109,0.5);
-    transition:0.4s;
+    width:150px;
+    height:150px;
     position:relative;
+    cursor:pointer;
+    transition:1s;
+    transform-style:preserve-3d;
+    z-index:10;
 }
 
-.box:hover{
-    transform:scale(1.05);
-}
-
-/* فتح */
-.open{
-    animation: pop 0.8s forwards;
-}
-
-@keyframes pop{
-    0%{transform:scale(1);}
-    100%{transform:scale(0) rotate(360deg); opacity:0;}
-}
-
-/* الرسالة */
-#message{
-    display:none;
-    text-align:center;
-    max-width:320px;
-    font-size:18px;
-    line-height:1.7;
-    animation: fade 1.5s ease;
-}
-
-@keyframes fade{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-/* الصورة */
-#photo{
-    display:none;
-    width:220px;
+.base{
+    width:100%;
+    height:100%;
+    background:linear-gradient(145deg,#ff4d6d,#c9184a);
     border-radius:20px;
-    margin-top:15px;
-    box-shadow:0 10px 25px rgba(255,255,255,0.3);
+    box-shadow:0 20px 60px rgba(255,77,109,0.5);
 }
 
-/* الحب */
-#love{
-    display:none;
-    font-size:34px;
-    color:#ff4d6d;
-    margin-top:15px;
+.lid{
+    width:100%;
+    height:100%;
+    background:linear-gradient(145deg,#ff2e5e,#9d0208);
+    border-radius:20px;
+    position:absolute;
+    top:0;
+    transform-origin:top;
+    transition:1.2s;
+}
+
+.open .lid{
+    transform:rotateX(-140deg);
+}
+
+.hide{
+    animation: vanish 1s forwards;
+}
+
+@keyframes vanish{
+    to{transform:scale(0) rotate(360deg);opacity:0;}
+}
+
+/* 🎬 zoom سينمائي */
+.zoom{
+    animation: camZoom 2s ease;
+}
+
+@keyframes camZoom{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.15) translateY(-10px);}
+    100%{transform:scale(1);}
+}
+
+/* 🌌 نص السماء */
+#skyText{
+    position:absolute;
+    top:18%;
+    width:100%;
+    text-align:center;
+    font-size:48px;
     font-weight:bold;
+    opacity:0;
+    transform:scale(0.5);
+    text-shadow:0 0 30px white, 0 0 60px #ff4d6d;
+    transition:2s;
+    letter-spacing:2px;
+}
+
+/* 💥 انفجار */
+.particle{
+    position:absolute;
+    font-size:18px;
+    animation: explode 3s linear forwards;
+}
+
+@keyframes explode{
+    0%{transform:translate(0,0) scale(1);opacity:1;}
+    100%{transform:translate(var(--x),var(--y)) scale(2);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="box" id="box" onclick="openBox()">🎁</div>
+<div class="layer"></div>
+<div class="layer layer2"></div>
+<div class="layer layer3"></div>
 
-<div id="message"></div>
+<div class="moon"></div>
 
-<img id="photo" src="your-photo.jpg">
+<div class="box" id="box" onclick="openBox()">
+    <div class="lid"></div>
+    <div class="base"></div>
+</div>
 
-<div id="love">بحبك يا جومانا ❤️</div>
+<div id="skyText">بحبك اوي يا جومانا</div>
 
 <script>
 
-/* نجوم */
-for(let i=0;i<80;i++){
-    let s=document.createElement("div");
-    s.className="star";
-    s.style.top=Math.random()*100+"vh";
-    s.style.left=Math.random()*100+"vw";
-    s.style.animationDuration=(Math.random()*3+2)+"s";
-    document.body.appendChild(s);
-}
-
-/* كتابة */
-function typeText(text, el, speed){
-    let i=0;
-    function run(){
-        if(i<text.length){
-            el.innerHTML += text[i];
-            i++;
-            setTimeout(run,speed);
-        }
-    }
-    run();
-}
-
 function openBox(){
 
-    document.getElementById("box").classList.add("open");
+    document.body.classList.add("zoom");
 
     setTimeout(()=>{
-        let msg=document.getElementById("message");
-        msg.style.display="block";
+        document.body.classList.remove("zoom");
+    },2000);
 
-        typeText(
-`عندي ليكي حاجة بسيطة... بس من قلبي ❤️
-
-وجودك في حياتي مش صدفة عادية ✨
-ده أحلى حاجة حصلتلي 💫
-وكل لحظة معاكي ليها معنى مختلف ❤️`,
-        msg,40);
-    },800);
+    const box=document.getElementById("box");
+    box.classList.add("open");
 
     setTimeout(()=>{
-        document.getElementById("photo").style.display="block";
-    },5000);
+        box.classList.add("hide");
+    },900);
 
     setTimeout(()=>{
-        document.getElementById("love").style.display="block";
-    },6500);
+        document.getElementById("skyText").style.opacity="1";
+        document.getElementById("skyText").style.transform="scale(1)";
+    },1500);
+
+    setTimeout(()=>{
+        explode();
+    },2000);
 }
+
+/* 💥 انفجار سينمائي */
+function explode(){
+    for(let i=0;i<60;i++){
+        let p=document.createElement("div");
+        p.className="particle";
+        p.innerHTML="✨";
+        p.style.left="50vw";
+        p.style.top="50vh";
+
+        let x=(Math.random()*400-200)+"px";
+        let y=(Math.random()*400-200)+"px";
+
+        p.style.setProperty("--x",x);
+        p.style.setProperty("--y",y);
+
+        document.body.appendChild(p);
+
+        setTimeout(()=>p.remove(),3000);
+    }
+}
+
 </script>
 
 </body>
