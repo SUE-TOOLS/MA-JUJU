@@ -5,22 +5,22 @@
 <title>Luxury Cinematic Gift</title>
 
 <!-- ✨ فونت فخم -->
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
 body{
     margin:0;
     height:100vh;
     overflow:hidden;
-    background: radial-gradient(circle at top, #0f1530, #070812, #000);
-    font-family:'Cinzel', serif;
+    background: radial-gradient(circle at top, #101633, #070812, #000);
+    font-family:'Playfair Display', serif;
     color:white;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
-/* 🌟 نجوم ناعمة */
+/* 🌟 نجوم */
 .star{
     position:absolute;
     width:2px;
@@ -36,19 +36,21 @@ body{
     50%{opacity:1;}
 }
 
-/* 🌙 قمر واقعي */
+/* 🌙 قمر واقعي جدًا */
 .moon{
     position:absolute;
     top:50px;
     right:70px;
-    width:120px;
-    height:120px;
+    width:130px;
+    height:130px;
     border-radius:50%;
     background:
-        radial-gradient(circle at 30% 30%, #fff8c9, #d6d3a8 40%, #9c9a78 70%, #6b6a55 100%);
+        radial-gradient(circle at 30% 30%, #fff9d6 0%, #e6e2b8 35%, #b8b49a 60%, #6b6a55 100%),
+        radial-gradient(circle at 60% 60%, rgba(0,0,0,0.25), transparent 40%);
     box-shadow:
-        inset -10px -10px 25px rgba(0,0,0,0.4),
-        0 0 80px rgba(255,255,200,0.5);
+        inset -20px -20px 40px rgba(0,0,0,0.4),
+        inset 10px 10px 30px rgba(255,255,255,0.1),
+        0 0 90px rgba(255,255,210,0.45);
 }
 
 /* 🌠 شهاب */
@@ -71,9 +73,9 @@ body{
 .box{
     width:150px;
     height:150px;
-    background: linear-gradient(145deg,#ff4d6d,#b5179e);
-    border-radius:22px;
-    box-shadow:0 25px 70px rgba(255,77,109,0.5);
+    background: linear-gradient(145deg,#ff4d6d,#7b2cbf);
+    border-radius:24px;
+    box-shadow:0 25px 80px rgba(123,44,191,0.4);
     cursor:pointer;
     transition:0.5s;
 }
@@ -97,16 +99,16 @@ body{
     top:18%;
     width:100%;
     text-align:center;
-    font-size:48px;
+    font-size:50px;
     font-weight:700;
     letter-spacing:2px;
     opacity:0;
     transform:scale(0.5);
-    color:#fff;
+    color:#f8f6f0;
     text-shadow:
-        0 0 10px #fff,
-        0 0 20px #ff4d6d,
-        0 0 40px #ff4d6d;
+        0 0 10px rgba(255,255,255,0.7),
+        0 0 25px rgba(255,215,140,0.6),
+        0 0 50px rgba(255,180,90,0.4);
     transition:2s;
 }
 
@@ -117,7 +119,8 @@ body{
     max-width:380px;
     font-size:18px;
     line-height:1.8;
-    letter-spacing:1px;
+    color:#f5f3ea;
+    letter-spacing:0.5px;
 }
 </style>
 </head>
@@ -179,10 +182,10 @@ function openBox(){
 `في لحظة زي دي...
 الكلام مش كفاية ✨
 
-بس الإحساس هو اللي بيتكلم 💫
+بس الإحساس هو اللي بيتقال 💫
 
-دي مش مجرد مفاجأة...
-دي لحظة مختلفة ❤️`,
+دي مش مفاجأة عادية...
+دي لحظة ليها معنى ❤️`,
         msg,45);
     },1700);
 }
