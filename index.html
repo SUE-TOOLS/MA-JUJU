@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Gift Scene Alive</title>
+<title>Love Space Gift</title>
 
 <style>
 body{
@@ -11,66 +11,70 @@ body{
     overflow:hidden;
     background: radial-gradient(circle at top, #0b1230, #05060d, #000);
     font-family:Arial;
+    color:white;
     display:flex;
     justify-content:center;
     align-items:center;
-    color:white;
 }
 
-/* 🌌 نجوم */
+/* 🌟 نجوم */
 .star{
     position:absolute;
+    width:2px;
+    height:2px;
     background:white;
     border-radius:50%;
-    opacity:0.8;
-    animation:twinkle 3s infinite;
+    opacity:0.7;
 }
 
-@keyframes twinkle{
-    0%,100%{opacity:0.2;}
-    50%{opacity:1;}
-}
-
-/* 🌠 شهاب */
-.meteor{
+/* 🌙 قمر */
+.moon{
     position:absolute;
-    width:120px;
-    height:2px;
-    background:linear-gradient(90deg,#fff,transparent);
-    animation:shoot 6s linear infinite;
-    opacity:0;
-}
-
-@keyframes shoot{
-    0%{transform:translate(-200px,100px);opacity:0;}
-    10%{opacity:1;}
-    100%{transform:translate(120vw,-200px);opacity:0;}
+    top:50px;
+    right:60px;
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 30% 30%, #fffbe6, #d6d1a3 40%, #6b6a55);
+    box-shadow:0 0 80px rgba(255,255,200,0.4);
 }
 
 /* 🪐 كواكب */
 .planet{
     position:absolute;
     border-radius:50%;
+}
+
+/* 🧸 دباديب */
+.teddy{
+    position:absolute;
+    font-size:28px;
+    animation:float 4s ease-in-out infinite;
     opacity:0.9;
 }
 
-/* 🌙 قمر واقعي */
-.moon{
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
+}
+
+/* 🍓 فراولة */
+.strawberry{
     position:absolute;
-    top:50px;
-    right:60px;
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    background:
-      radial-gradient(circle at 30% 30%, #fff, #d6d1a3 40%, #6b6a55);
-    box-shadow:0 0 80px rgba(255,255,200,0.4);
+    font-size:22px;
+    animation:float2 5s ease-in-out infinite;
+}
+
+@keyframes float2{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
 }
 
 /* 🎁 بوكس */
 .gift{
-    width:140px;
-    height:140px;
+    width:150px;
+    height:150px;
     position:relative;
     cursor:pointer;
 }
@@ -78,14 +82,14 @@ body{
 .base{
     width:100%;
     height:100%;
-    background:#e63946;
-    border-radius:14px;
+    background:linear-gradient(145deg,#ff4d6d,#c9184a);
+    border-radius:15px;
 }
 
 .lid{
     width:100%;
-    height:45%;
-    background:#c1121f;
+    height:50%;
+    background:linear-gradient(145deg,#ff2e5e,#7a0000);
     position:absolute;
     top:0;
     border-radius:10px;
@@ -97,7 +101,7 @@ body{
     transform:rotateX(-140deg);
 }
 
-/* 💬 النص */
+/* 💬 النص العلوي */
 #topText{
     position:absolute;
     top:10%;
@@ -105,15 +109,18 @@ body{
     text-align:center;
     font-size:40px;
     font-weight:bold;
+    text-shadow:0 0 20px rgba(255,255,255,0.5);
 }
 
+/* 💬 النص الجانبي */
 #sideText{
     position:absolute;
     right:8%;
-    max-width:320px;
-    font-size:20px;
-    line-height:1.8;
+    max-width:360px;
+    font-size:19px;
+    line-height:1.9;
     display:none;
+    text-shadow:0 0 10px rgba(255,255,255,0.3);
 }
 </style>
 </head>
@@ -121,6 +128,7 @@ body{
 <body>
 
 <div class="moon"></div>
+
 <div id="topText">بحبك اوي يا جومانا ❤️</div>
 
 <div class="gift" id="gift" onclick="openGift()">
@@ -132,52 +140,61 @@ body{
 
 <script>
 
-/* 🌌 نجوم كثيفة */
-for(let i=0;i<180;i++){
+/* 🌌 نجوم */
+for(let i=0;i<150;i++){
     let s=document.createElement("div");
     s.className="star";
-    let size=Math.random()*3+1;
-
-    s.style.width=size+"px";
-    s.style.height=size+"px";
-
     s.style.top=Math.random()*100+"vh";
     s.style.left=Math.random()*100+"vw";
-
-    s.style.animationDuration=(Math.random()*3+1)+"s";
-
+    s.style.opacity=Math.random();
     document.body.appendChild(s);
-}
-
-/* 🌠 شهب */
-for(let i=0;i<4;i++){
-    let m=document.createElement("div");
-    m.className="meteor";
-    m.style.top=Math.random()*100+"vh";
-    m.style.animationDelay=(i*2)+"s";
-    document.body.appendChild(m);
 }
 
 /* 🪐 كواكب */
 for(let i=0;i<3;i++){
     let p=document.createElement("div");
     p.className="planet";
-    let size=Math.random()*40+20;
-
-    p.style.width=size+"px";
-    p.style.height=size+"px";
+    p.style.width=(Math.random()*50+30)+"px";
+    p.style.height=p.style.width;
     p.style.top=Math.random()*80+"vh";
     p.style.left=Math.random()*80+"vw";
 
-    let colors=[
+    p.style.background=[
         "radial-gradient(circle,#7cc7ff,#1e3a8a)",
         "radial-gradient(circle,#ffb703,#fb8500)",
         "radial-gradient(circle,#90be6d,#2a9d8f)"
-    ];
-
-    p.style.background=colors[i];
+    ][i];
 
     document.body.appendChild(p);
+}
+
+/* 🧸 دباديب */
+for(let i=0;i<16;i++){
+    let t=document.createElement("div");
+    t.className="teddy";
+    t.innerHTML="🧸";
+    t.style.left=(Math.random()*15)+"vw";
+    t.style.top=Math.random()*100+"vh";
+    document.body.appendChild(t);
+}
+
+for(let i=0;i<16;i++){
+    let t=document.createElement("div");
+    t.className="teddy";
+    t.innerHTML="🧸";
+    t.style.left=(80+Math.random()*15)+"vw";
+    t.style.top=Math.random()*100+"vh";
+    document.body.appendChild(t);
+}
+
+/* 🍓 فراولة */
+for(let i=0;i<18;i++){
+    let s=document.createElement("div");
+    s.className="strawberry";
+    s.innerHTML="🍓";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    document.body.appendChild(s);
 }
 
 /* ✍️ typing */
@@ -186,7 +203,7 @@ function typeText(text, el, speed){
     el.innerHTML="";
     function run(){
         if(i<text.length){
-            el.innerHTML+=text[i];
+            el.innerHTML += text[i];
             i++;
             setTimeout(run,speed);
         }
@@ -203,15 +220,17 @@ function openGift(){
         side.style.display="block";
 
         typeText(
-`في لحظة زي دي...
-الدنيا بتسكت عشانك ✨
+`في لحظة زي دي... الدنيا بتسكت عشانك ✨
 
-مفيش اهم ولا اغلي منك ف الدنيا كلها بنور عيني
-لقاكي هي احلي و احسن و انقي حاجه حصلتلي في الدنيا 
-انتي حظي الحلو في الدنيا ديه ينور عيني 💫
+مفيش اهم ولا اغلي منك في الدنيا كلها
 
-مفيش اجمل منك والله يا اجمل بنت في العالم كله 
-انا بعشقك و بحبك اوي ياجومانا❤️`,
+بنور عيني لقيتك احلي و احسن و انقي حاجة حصلتلي في الدنيا
+
+انتي حظي الحلو في الدنيا دي 💫
+
+مفيش اجمل منك والله يا اجمل بنت في العالم كله
+
+انا بعشقك و بحبك اوي يا جومانا ❤️`,
         side,35);
 
     },900);
