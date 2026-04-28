@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Galaxy Surprise</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial;
+    color:white;
+    background:black;
+}
+
+/* 🌌 مجرة */
+.stars, .stars2, .stars3{
+    position:absolute;
+    width:200%;
+    height:200%;
+    background-repeat:repeat;
+    background-size:contain;
+    animation: moveStars 60s linear infinite;
+}
+
+.stars{
+    background-image: radial-gradient(white 1px, transparent 1px);
+    opacity:0.5;
+}
+
+.stars2{
+    background-image: radial-gradient(#ff4d6d 1px, transparent 1px);
+    opacity:0.3;
+    animation-duration:100s;
+}
+
+.stars3{
+    background-image: radial-gradient(#6ec1ff 1px, transparent 1px);
+    opacity:0.2;
+    animation-duration:150s;
+}
+
+@keyframes moveStars{
+    from{transform:translate(0,0);}
+    to{transform:translate(-500px,-500px);}
+}
+
+/* اهتزاز */
+.shake{
+    animation: shake 0.5s;
+}
+
+@keyframes shake{
+    0%{transform:translate(0,0);}
+    25%{transform:translate(5px,-5px);}
+    50%{transform:translate(-5px,5px);}
+    75%{transform:translate(5px,5px);}
+    100%{transform:translate(0,0);}
+}
+
+/* 🎁 صندوق 3D */
+.box{
+    width:160px;
+    height:160px;
+    position:relative;
+    transform-style:preserve-3d;
+    cursor:pointer;
+}
+
+/* قاعدة الصندوق */
+.base{
+    width:100%;
+    height:100%;
+    background:#ff4d6d;
+    position:absolute;
+    bottom:0;
+    border-radius:15px;
+    box-shadow:0 0 30px #ff4d6d;
+}
+
+/* الغطاء */
+.lid{
+    width:100%;
+    height:100%;
+    background:#ff2e5e;
+    position:absolute;
+    top:0;
+    transform-origin:top;
+    border-radius:15px;
+    transition:1s;
+}
+
+/* فتح */
+.open .lid{
+    transform:rotateX(-120deg);
+}
+
+/* رسالة */
+#message{
+    display:none;
+    text-align:center;
+    max-width:320px;
+    font-size:18px;
+    line-height:1.6;
+}
+
+/* صورة */
+#photo{
+    display:none;
+    width:220px;
+    border-radius:20px;
+    margin-top:15px;
+    box-shadow:0 0 20px white;
+}
+
+/* حب */
+#love{
+    display:none;
+    font-size:34px;
+    color:#ff4d6d;
+    margin-top:15px;
+}
+
+/* زرار */
+#replay{
+    display:none;
+    margin-top:20px;
+    padding:10px 20px;
+    background:#fff;
+    color:black;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+<div class="stars2"></div>
+<div class="stars3"></div>
+
+<audio id="music" src="music.mp3"></audio>
+
+<div class="box" id="box" onclick="openBox()">
+    <div class="lid"></div>
+    <div class="base"></div>
+</div>
+
+<div id="message"></div>
+<img id="photo" src="your-photo.jpg">
+<div id="love">بحبك يا جومانا ❤️</div>
+
+<button id="replay" onclick="location.reload()">Replay 🔁</button>
+
+<script>
+
+function openBox(){
+
+    document.getElementById("music").play();
+
+    document.body.classList.add("shake");
+
+    setTimeout(()=>document.body.classList.remove("shake"),500);
+
+    document.getElementById("box").classList.add("open");
+
+    setTimeout(()=>{
+        document.getElementById("message").style.display="block";
+        typeText(`عندي ليكي حاجة بسيطة... بس من قلبي ❤️
+
+وجودك في حياتي أحلى صدفة ✨
+كل يوم معاكي أحلى من اللي قبله 💫
+والمفاجأة لسه مكملة...`,
+        document.getElementById("message"),40);
+    },1000);
+
+    setTimeout(()=>{
+        document.getElementById("photo").style.display="block";
+    },6000);
+
+    setTimeout(()=>{
+        document.getElementById("love").style.display="block";
+    },8000);
+
+    setTimeout(()=>{
+        document.getElementById("replay").style.display="inline-block";
+    },9000);
+}
+
+/* typing effect */
+function typeText(text, element, speed){
+    let i=0;
+    function typing(){
+        if(i<text.length){
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing,speed);
+        }
+    }
+    typing();
+}
+
+</script>
+
+</body>
+</html>
