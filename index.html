@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Space Gift</title>
+<title>Gift Scene Alive</title>
 
 <style>
 body{
@@ -10,18 +10,16 @@ body{
     height:100vh;
     overflow:hidden;
     background: radial-gradient(circle at top, #0b1230, #05060d, #000);
+    font-family:Arial;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family:Arial;
     color:white;
 }
 
 /* 🌌 نجوم */
 .star{
     position:absolute;
-    width:2px;
-    height:2px;
     background:white;
     border-radius:50%;
     opacity:0.8;
@@ -33,107 +31,89 @@ body{
     50%{opacity:1;}
 }
 
+/* 🌠 شهاب */
+.meteor{
+    position:absolute;
+    width:120px;
+    height:2px;
+    background:linear-gradient(90deg,#fff,transparent);
+    animation:shoot 6s linear infinite;
+    opacity:0;
+}
+
+@keyframes shoot{
+    0%{transform:translate(-200px,100px);opacity:0;}
+    10%{opacity:1;}
+    100%{transform:translate(120vw,-200px);opacity:0;}
+}
+
+/* 🪐 كواكب */
+.planet{
+    position:absolute;
+    border-radius:50%;
+    opacity:0.9;
+}
+
 /* 🌙 قمر واقعي */
 .moon{
     position:absolute;
     top:50px;
     right:60px;
-    width:130px;
-    height:130px;
+    width:120px;
+    height:120px;
     border-radius:50%;
     background:
-      radial-gradient(circle at 30% 30%, #fffbe6, #d6d1a3 40%, #8b8768 70%, #4b4a3a);
-    box-shadow:0 0 80px rgba(255,255,200,0.5);
+      radial-gradient(circle at 30% 30%, #fff, #d6d1a3 40%, #6b6a55);
+    box-shadow:0 0 80px rgba(255,255,200,0.4);
 }
 
-/* 🌍 كوكب */
-.planet{
-    position:absolute;
-    bottom:80px;
-    left:80px;
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    background: radial-gradient(circle at 30% 30%, #7cc7ff, #1e3a8a);
-    box-shadow:0 0 40px rgba(124,199,255,0.4);
-}
-
-/* 🎁 بوكس هدية */
+/* 🎁 بوكس */
 .gift{
-    width:150px;
-    height:150px;
+    width:140px;
+    height:140px;
     position:relative;
     cursor:pointer;
 }
 
-/* جسم */
 .base{
     width:100%;
     height:100%;
-    background:linear-gradient(145deg,#ff4d6d,#c9184a);
-    border-radius:15px;
-    position:absolute;
-    bottom:0;
-    box-shadow:0 20px 60px rgba(255,77,109,0.4);
+    background:#e63946;
+    border-radius:14px;
 }
 
-/* غطا */
 .lid{
     width:100%;
-    height:50%;
-    background:linear-gradient(145deg,#ff2e5e,#7a0000);
+    height:45%;
+    background:#c1121f;
     position:absolute;
     top:0;
     border-radius:10px;
     transform-origin:bottom;
-    transition:1s;
+    transition:0.8s;
 }
 
-/* شريط */
-.ribbon-v{
-    position:absolute;
-    width:18px;
-    height:100%;
-    background:#ffd166;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-.ribbon-h{
-    position:absolute;
-    width:100%;
-    height:18px;
-    background:#ffd166;
-    top:50%;
-    transform:translateY(-50%);
-}
-
-/* فتح */
 .open .lid{
     transform:rotateX(-140deg);
 }
 
 /* 💬 النص */
-#text{
-    display:none;
+#topText{
     position:absolute;
-    top:18%;
+    top:10%;
     width:100%;
     text-align:center;
     font-size:40px;
     font-weight:bold;
-    color:#f5f1e6;
-    text-shadow:0 0 20px rgba(255,255,255,0.8),
-                 0 0 40px rgba(255,215,120,0.6);
 }
 
-/* typing cursor */
-.cursor{
-    display:inline-block;
-    animation:blink 0.8s infinite;
-}
-@keyframes blink{
-    50%{opacity:0;}
+#sideText{
+    position:absolute;
+    right:8%;
+    max-width:320px;
+    font-size:20px;
+    line-height:1.8;
+    display:none;
 }
 </style>
 </head>
@@ -141,65 +121,98 @@ body{
 <body>
 
 <div class="moon"></div>
-<div class="planet"></div>
+<div id="topText">بحبك اوي يا جومانا ❤️</div>
 
 <div class="gift" id="gift" onclick="openGift()">
     <div class="lid"></div>
     <div class="base"></div>
-    <div class="ribbon-v"></div>
-    <div class="ribbon-h"></div>
 </div>
 
-<div id="text"></div>
+<div id="sideText"></div>
 
 <script>
 
-/* 🌌 نجوم */
-for(let i=0;i<140;i++){
+/* 🌌 نجوم كثيفة */
+for(let i=0;i<180;i++){
     let s=document.createElement("div");
     s.className="star";
+    let size=Math.random()*3+1;
+
+    s.style.width=size+"px";
+    s.style.height=size+"px";
+
     s.style.top=Math.random()*100+"vh";
     s.style.left=Math.random()*100+"vw";
-    s.style.width=(Math.random()*2+1)+"px";
-    s.style.height=s.style.width;
+
+    s.style.animationDuration=(Math.random()*3+1)+"s";
+
     document.body.appendChild(s);
 }
 
-/* 💬 typing effect */
-function typeText(text, el, speed){
-    let i = 0;
-    el.innerHTML = "";
+/* 🌠 شهب */
+for(let i=0;i<4;i++){
+    let m=document.createElement("div");
+    m.className="meteor";
+    m.style.top=Math.random()*100+"vh";
+    m.style.animationDelay=(i*2)+"s";
+    document.body.appendChild(m);
+}
 
+/* 🪐 كواكب */
+for(let i=0;i<3;i++){
+    let p=document.createElement("div");
+    p.className="planet";
+    let size=Math.random()*40+20;
+
+    p.style.width=size+"px";
+    p.style.height=size+"px";
+    p.style.top=Math.random()*80+"vh";
+    p.style.left=Math.random()*80+"vw";
+
+    let colors=[
+        "radial-gradient(circle,#7cc7ff,#1e3a8a)",
+        "radial-gradient(circle,#ffb703,#fb8500)",
+        "radial-gradient(circle,#90be6d,#2a9d8f)"
+    ];
+
+    p.style.background=colors[i];
+
+    document.body.appendChild(p);
+}
+
+/* ✍️ typing */
+function typeText(text, el, speed){
+    let i=0;
+    el.innerHTML="";
     function run(){
-        if(i < text.length){
-            el.innerHTML += text[i];
+        if(i<text.length){
+            el.innerHTML+=text[i];
             i++;
-            setTimeout(run, speed);
+            setTimeout(run,speed);
         }
     }
-
     run();
 }
 
-/* 🎁 فتح البوكس */
+/* 🎁 فتح */
 function openGift(){
-
     document.getElementById("gift").classList.add("open");
 
     setTimeout(()=>{
-        let t = document.getElementById("text");
-        t.style.display = "block";
+        let side=document.getElementById("sideText");
+        side.style.display="block";
 
         typeText(
-`بحبك اوي يا جومانا ❤️
+`في لحظة زي دي...
+الدنيا بتسكت عشانك ✨
 
-كل اللي هنا معمول علشانك ✨
+وكل اللي حواليك بيقول:
+إنك أغلى حاجة 💫
 
-مش مجرد موقع...
-دي لحظة ليكي إنتي بس 💫`,
-        t, 35);
+وإن الجمال ده مش صدفة ❤️`,
+        side,35);
 
-    }, 900);
+    },900);
 }
 
 </script>
