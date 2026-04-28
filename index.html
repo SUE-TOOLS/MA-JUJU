@@ -2,31 +2,53 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>IMAX Gift Fixed</title>
+<title>Luxury Cinematic Gift</title>
+
+<!-- ✨ فونت فخم -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
 body{
     margin:0;
     height:100vh;
     overflow:hidden;
-    background: radial-gradient(circle at top, #1a1f3f, #090a14, #000);
-    font-family:Arial;
+    background: radial-gradient(circle at top, #0f1530, #070812, #000);
+    font-family:'Cinzel', serif;
     color:white;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
-/* 🌙 القمر */
+/* 🌟 نجوم ناعمة */
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    opacity:0.8;
+    animation:twinkle 3s infinite;
+}
+
+@keyframes twinkle{
+    0%,100%{opacity:0.2;}
+    50%{opacity:1;}
+}
+
+/* 🌙 قمر واقعي */
 .moon{
     position:absolute;
-    top:60px;
-    right:80px;
-    width:90px;
-    height:90px;
-    background:#f5f3ce;
+    top:50px;
+    right:70px;
+    width:120px;
+    height:120px;
     border-radius:50%;
-    box-shadow:0 0 60px rgba(255,255,200,0.7);
+    background:
+        radial-gradient(circle at 30% 30%, #fff8c9, #d6d3a8 40%, #9c9a78 70%, #6b6a55 100%);
+    box-shadow:
+        inset -10px -10px 25px rgba(0,0,0,0.4),
+        0 0 80px rgba(255,255,200,0.5);
 }
 
 /* 🌠 شهاب */
@@ -45,63 +67,57 @@ body{
     100%{transform:translate(120vw,-200px);opacity:0;}
 }
 
-/* ✨ النجوم */
-.star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    background:white;
-    border-radius:50%;
-    opacity:0.8;
-    animation:twinkle 2s infinite;
-}
-
-@keyframes twinkle{
-    0%,100%{opacity:0.2;}
-    50%{opacity:1;}
-}
-
 /* 🎁 بوكس */
 .box{
     width:150px;
     height:150px;
-    background:linear-gradient(145deg,#ff4d6d,#c9184a);
-    border-radius:20px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:40px;
+    background: linear-gradient(145deg,#ff4d6d,#b5179e);
+    border-radius:22px;
+    box-shadow:0 25px 70px rgba(255,77,109,0.5);
     cursor:pointer;
-    box-shadow:0 20px 60px rgba(255,77,109,0.4);
-    transition:0.6s;
-    z-index:10;
+    transition:0.5s;
 }
 
 .box:hover{
     transform:scale(1.05);
 }
 
-/* فتح */
-.open{
-    animation:pop 1s forwards;
+/* اختفاء */
+.hide{
+    animation: vanish 1s forwards;
 }
 
-@keyframes pop{
+@keyframes vanish{
     to{transform:scale(0) rotate(360deg);opacity:0;}
 }
 
-/* 💬 النص */
+/* 🌌 النص الكبير الفخم */
 #skyText{
     position:absolute;
-    top:20%;
+    top:18%;
     width:100%;
     text-align:center;
-    font-size:42px;
-    font-weight:bold;
+    font-size:48px;
+    font-weight:700;
+    letter-spacing:2px;
     opacity:0;
     transform:scale(0.5);
-    text-shadow:0 0 25px white, 0 0 50px #ff4d6d;
+    color:#fff;
+    text-shadow:
+        0 0 10px #fff,
+        0 0 20px #ff4d6d,
+        0 0 40px #ff4d6d;
     transition:2s;
+}
+
+/* 💬 الرسالة */
+#message{
+    display:none;
+    text-align:center;
+    max-width:380px;
+    font-size:18px;
+    line-height:1.8;
+    letter-spacing:1px;
 }
 </style>
 </head>
@@ -110,18 +126,20 @@ body{
 
 <div class="moon"></div>
 
-<div class="shooting" style="top:20%;animation-delay:0s;"></div>
+<div class="shooting" style="top:25%;animation-delay:0s;"></div>
 <div class="shooting" style="top:50%;animation-delay:2s;"></div>
 <div class="shooting" style="top:70%;animation-delay:4s;"></div>
 
 <div id="skyText">بحبك اوي يا جومانا</div>
 
-<div class="box" onclick="openBox()">🎁</div>
+<div class="box" id="box" onclick="openBox()"></div>
+
+<div id="message"></div>
 
 <script>
 
-/* 🌟 توليد نجوم حقيقي */
-for(let i=0;i<120;i++){
+/* 🌟 نجوم */
+for(let i=0;i<140;i++){
     let s=document.createElement("div");
     s.className="star";
     s.style.top=Math.random()*100+"vh";
@@ -130,15 +148,43 @@ for(let i=0;i<120;i++){
     document.body.appendChild(s);
 }
 
+/* كتابة */
+function typeText(text, el, speed){
+    let i=0;
+    function run(){
+        if(i<text.length){
+            el.innerHTML += text[i];
+            i++;
+            setTimeout(run,speed);
+        }
+    }
+    run();
+}
+
 function openBox(){
 
-    document.querySelector(".box").classList.add("open");
+    document.getElementById("box").classList.add("hide");
 
     setTimeout(()=>{
-        let text=document.getElementById("skyText");
-        text.style.opacity="1";
-        text.style.transform="scale(1)";
+        let sky=document.getElementById("skyText");
+        sky.style.opacity="1";
+        sky.style.transform="scale(1)";
     },900);
+
+    setTimeout(()=>{
+        let msg=document.getElementById("message");
+        msg.style.display="block";
+
+        typeText(
+`في لحظة زي دي...
+الكلام مش كفاية ✨
+
+بس الإحساس هو اللي بيتكلم 💫
+
+دي مش مجرد مفاجأة...
+دي لحظة مختلفة ❤️`,
+        msg,45);
+    },1700);
 }
 
 </script>
